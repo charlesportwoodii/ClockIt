@@ -34,6 +34,11 @@ return array(
 			'schemaPath' => 'application.modules.auditTrail.dbSchema',
 			
 			),
+		'gii'=>array(
+			'class'=>'system.gii.GiiModule',
+			'password'=>'Kerahyain11',
+			'ipFilters'=>array('*'),
+		),
 	),
 	//'onBeginRequest'=>create_function('$event', 'return ob_start("ob_gzhandler");'),
 	//'onEndRequest'=>create_function('$event', 'return ob_end_flush();'),

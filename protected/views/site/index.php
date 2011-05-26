@@ -15,7 +15,7 @@
 			<p>Reviewing your timesheet is simple, just click on the <a href="<? echo Yii::app()->getBaseUrl(); ?>/home">home</a> link to view your times.</p>
 		</div>
 		<div class="col last">
-			<h3>Keey Up To <span class="red">Data</span></h3>
+			<h3>Keep Up To <span class="red">Data</span></h3>
 			<p class="info">The Team 55 Twitter feed is the number one way to stay informed about unexpected outages and issues. Before beginning your shift you should check the twitter feed to see if any new issues have arisen.</p>
 			<div id="data">
 			</div>
