@@ -238,7 +238,7 @@ class SiteController extends Controller
 					echo '<div id="loading" class="ntc" style="position:relative;top:-25px;">ClockIt has detected that you forgot to clock out of your previous shift, and has automatically filed a Forgot to ClockIt submission for this shift. No futher action is required on your part.<br /><br />You are now ' . $text . ' the clock.</div>';
 					}
 				else
-					echo '<div id="loading" class="' . ($text == 'on' ? 'sucs' : 'info2'). '">Thank you for clocking your time. You are now ' . $text . ' the clock!</div>';
+					echo '<div id="loading" class="' . ($text == 'on' ? 'sucs' : 'info2). '">Thank you for clocking your time. You are now ' . $text . ' the clock!</div>';
 				}
 			else {
 			
