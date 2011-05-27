@@ -9,7 +9,7 @@ $this->breadcrumbs=array(
 $this->menu=array(
 	array('label'=>'Manage Forgot Submissions', 'url'=>array('index')),
 	array('label'=>'Create New Submission', 'url'=>array('create')),
-	array('label'=>'View Schedule', 'url'=>array('/admin/schedule/viewschedule'')),
+	array('label'=>'View Schedule', 'url'=>array('/admin/schedule/viewschedule')),
 	array('label'=>'View This Submission', 'url'=>array('view', 'id'=>$model->id)),
 );
 ?>

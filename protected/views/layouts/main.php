@@ -11,7 +11,7 @@
 </head>
 <body>
 	<div id="header">
-		<h1><a href="<?php echo Yii::app()->request->baseUrl; ?>"><?php echo CHtml::encode(Yii::app()->name); ?><sup><?php echo Yii::app()->params['version']; ?></sup></a></h1>
+		<h1><a href="<?php echo Yii::app()->request->baseUrl; ?>/"><?php echo CHtml::encode(Yii::app()->name); ?><sup><?php echo Yii::app()->params['version']; ?></sup></a></h1>
 		
 		<?php 
 			$module = FALSE;
