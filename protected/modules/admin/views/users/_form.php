@@ -45,10 +45,6 @@
 			<td><?php echo $form->labelEx($model,'uid'); ?></td>
 			<td><?php echo $form->textField($model,'uid'); ?></td>
 		</tr>
-		<tr>
-			<td><?php echo $form->labelEx($model,'spUid'); ?></td>
-			<td><?php echo $form->textField($model,'spUid'); ?></td>
-		</tr>
 
 		<tr>
 			<td><?php echo $form->labelEx($model,'email'); ?></td>
@@ -110,7 +106,7 @@
 							'options'=>array(
 								'showAnim'=>'clip',
 								'dateFormat'=>'yy-mm-dd',
-								'changeYear'=>true,
+								//'changeYear'=>true,
 							),
 							'htmlOptions'=>array(
 								'style'=>'height:20px;'
@@ -127,7 +123,7 @@
 
 		<tr>
 			<td><?php echo $form->labelEx($model,'role'); ?></td>
-			<td><?php echo $form->dropDownList($model,'role',CHtml::listData(Roles::model()->findAll(), 'rid', 'name'), array('empty'=>'Choose a Role')); ?></td>
+			<td><?php echo $form->dropDownList($model,'role',CHtml::listData(Roles::model()->findAll(), 'rid', 'name'), array('empty'=>'Choose a Role', 'options'=>array(5=>array('selected'=>'selected')))); ?></td>
 		</tr>
 
 		<tr>
@@ -154,23 +150,15 @@
 			<td><?php echo $form->labelEx($model,'assists'); ?></td>
 			<td><?php echo $form->textField($model,'assists'); ?></td>
 		</tr>
-
-		<tr>
-			<td><?php echo $form->labelEx($model,'lastAttempt'); ?></td>
-			<td><?php echo $form->textField($model,'lastAttempt'); ?></td>
-		</tr>
-
 		<tr>
 			<td><?php echo $form->labelEx($model,'firstLogin'); ?></td>
 			<td><?php echo $form->dropDownList($model,'firstLogin',array('1'=>'Yes', '0'=>'No'), array('empty'=>'Any (*)')); ?></td>
 		</tr>
 
-		<tr>
-			<td><?php echo $form->labelEx($model,'numOfAttempts'); ?></td>
-			<td><?php echo $form->textField($model,'numOfAttempts'); ?></td>
-		</tr>
-		
 		</table>	
+			<?php echo $form->hiddenField($model,'lastAttempt'); ?>
+			<?php echo $form->hiddenField($model,'numOfAttempts'); ?>
+			<?php echo $form->hiddenField($model,'spUid'); ?>
 			<?php echo $form->hiddenField($model,'cStatus'); ?>
 			<?php echo $form->hiddenField($model,'appToken',array('size'=>60,'maxlength'=>255)); ?>
 		<div class="buttons">
