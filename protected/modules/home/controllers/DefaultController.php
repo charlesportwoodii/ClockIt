@@ -23,7 +23,7 @@ class DefaultController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','changepassword','update','viewforgot','viewforgotcomments','schedule','getUpcommingShifts','scheduledShifts', 'forgotHelper', 'test'),
+				'actions'=>array('index','banner', 'export', 'changepassword','update','viewforgot','viewforgotcomments','schedule','getUpcommingShifts','scheduledShifts', 'forgotHelper', 'test'),
 				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
@@ -189,6 +189,60 @@ class DefaultController extends Controller
 		$model = new Forgot;
 		$model->type=3;			// Set the default type to 3 "clocked into my shift late"
 		$this->render('schedule', array('model'=>$model));
+	}
+	
+	/**
+	 *	Shows a banner view for easy submission
+	 */
+	public function actionBanner()
+	{
+		$this->layout = false;
+		$connection=Yii::app()->db;
+		
+		$sql = "SELECT uid, shift_start, shift_end FROM timecards WHERE uid = :uid AND shift_start >= :timestamp";
+		
+		$timestamp = date("Y-m-d 00:00:00", strtotime("20 days ago"));
+		
+		if (isset($_GET['ts']))
+		{
+			$timestamp = $_GET['ts'] . " 00:00:00";
+		}
+		
+		$command=$connection->createCommand($sql);
+		$command->bindParam(":uid",Yii::app()->user->id,PDO::PARAM_STR);
+		$command->bindParam(":timestamp",$timestamp,PDO::PARAM_STR);
+		$dataReader = $command->queryAll();
+		
+		$this->render('banner', array('dataReader'=>$dataReader));
+	}
+	
+	/**
+	 *	Exports shift data out as a CSV
+	 */
+	public function actionExport()
+	{
+		
+		Yii::import('ext.parsecsv');	
+		$csv = new parsecsv();
+		$connection=Yii::app()->db;
+		
+		$sql = "SELECT uid, shift_start, shift_end FROM timecards WHERE uid = :uid AND shift_start >= :timestamp";
+		$name='report';
+		$headers=array(array('uid'=>'Banner Id', 'shift_start'=>'Start_Time', 'shift_end'=>'End_Time'));
+		
+		$timestamp = date("Y-m-d 00:00:00", strtotime("20 days ago"));
+		
+		if (isset($_GET['ts']))
+		{
+			$timestamp = $_GET['ts'] . " 00:00:00";
+		}
+		
+		$command=$connection->createCommand($sql);
+		$command->bindParam(":uid",Yii::app()->user->id,PDO::PARAM_STR);
+		$command->bindParam(":timestamp",$timestamp,PDO::PARAM_STR);
+		$dataReader = $command->queryAll();
+		$csv->output (true, $name . '.csv', array_merge($headers,$dataReader));
+		
 	}
 	
 	public function actionScheduledShifts() {

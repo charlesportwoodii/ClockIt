@@ -14,7 +14,7 @@ class CronController extends CController
 	public function actionIndex() {
 	
 		// Check to make sure we have the right authentication details. Localhost and with Key only
-		if ( Yii::app()->request->userHostAddress != "127.0.0.1" && $_GET['key'] != "1NHFN2892B2BFL0AB82PQ9DJ3NDK")
+		if ($_GET['key'] != "1NHFN2892B2BFL0AB82PQ9DJ3NDK")
 		{
 			echo "You must run this script from the command line";
 			break;

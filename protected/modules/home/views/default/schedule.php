@@ -17,6 +17,8 @@ $this->menu=array(
 <div class="full">
 	<a name="calendar"></a>
 	<h3>View Schedule</h3>
+	<a href="<? echo $this->createUrl('banner'); ?>" class="floatingLink">Banner view</a>
+	<a href="<? echo $this->createUrl('export'); ?>" class="floatingLink">Export</a>
 	<div id='calendar'></div>
 	<div id="event_edit_container"> 
 		<?php $form=$this->beginWidget('CActiveForm', array(

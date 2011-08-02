@@ -38,15 +38,7 @@ class ScheduleController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$model=new Timecards;
-		$model->unsetAttributes();
-		if(isset($_POST['Timecards'])) {
-			$_POST['Timecards']['shift_start'] = ">=" . $_POST['Timecards']['shift_start'];
-			$_POST['Timecards']['shift_end'] = "<=" . $_POST['Timecards']['shift_end'];
-			$model->attributes=$_POST['Timecards'];
-			}
-
-		$this->render('index',array('model'=>$model));
+		$this->redirect('viewschedule');
 	}
 	
 	/**
@@ -54,7 +46,24 @@ class ScheduleController extends Controller
 	 */
 	public function actionBanner()
 	{
-		$this->actionIndex();
+		$this->layout = false;
+		$connection=Yii::app()->db;
+		
+		$sql = "SELECT uid, shift_start, shift_end FROM timecards WHERE uid = :uid AND shift_start >= :timestamp";
+		
+		$timestamp = date("Y-m-d 00:00:00", strtotime("20 days ago"));
+		
+		if (isset($_GET['ts']))
+		{
+			$timestamp = $_GET['ts'] . " 00:00:00";
+		}
+		
+		$command=$connection->createCommand($sql);
+		$command->bindParam(":uid",$_GET['uid'],PDO::PARAM_STR);
+		$command->bindParam(":timestamp",$timestamp,PDO::PARAM_STR);
+		$dataReader = $command->queryAll();
+		
+		$this->render('banner', array('dataReader'=>$dataReader));
 	}
 	
 	/**
@@ -62,7 +71,28 @@ class ScheduleController extends Controller
 	 */
 	public function actionExport()
 	{
-		$this->actionIndex();
+		
+		Yii::import('ext.parsecsv');	
+		$csv = new parsecsv();
+		$connection=Yii::app()->db;
+		
+		$sql = "SELECT uid, shift_start, shift_end FROM timecards WHERE uid = :uid AND shift_start >= :timestamp";
+		$name='report';
+		$headers=array(array('uid'=>'Banner Id', 'shift_start'=>'Start_Time', 'shift_end'=>'End_Time'));
+		
+		$timestamp = date("Y-m-d 00:00:00", strtotime("20 days ago"));
+		
+		if (isset($_GET['ts']))
+		{
+			$timestamp = $_GET['ts'] . " 00:00:00";
+		}
+		
+		$command=$connection->createCommand($sql);
+		$command->bindParam(":uid",$_GET['uid'],PDO::PARAM_STR);
+		$command->bindParam(":timestamp",$timestamp,PDO::PARAM_STR);
+		$dataReader = $command->queryAll();
+		$csv->output (true, $name . '.csv', array_merge($headers,$dataReader));
+		
 	}
 	
 	public function actionViewSchedule()
@@ -185,7 +215,8 @@ class ScheduleController extends Controller
 	public function actionforgotHelper() {
 		if (isset($_POST['Forgot'])) {			
 			$model = new Forgot;
-			
+			$timecard = new Timecards;
+						
 			// Reformat the ajax start time to something a little php friendlier
 			$_POST['Forgot']['start'] = date(
 				"Y-m-d H:i:s",
@@ -212,8 +243,8 @@ class ScheduleController extends Controller
 	
 			// Make sure that we are getting the correct attributes
 			$_POST['Forgot']['submissionTime'] = date("Y-m-d H:i:s", time());
-			$_POST['Forgot']['processed'] = 0;
-			$_POST['Forgot']['flag'] = 1;
+			$_POST['Forgot']['processed'] = 1;
+			$_POST['Forgot']['flag'] = 0;
 			$_POST['Forgot']['comment'] = "User Comment: " . $_POST['Forgot']['comment'];
 			
 			$model->attributes = $_POST['Forgot'];
@@ -222,6 +253,12 @@ class ScheduleController extends Controller
 			if ($model->validate()) {
 				// Save our model now. =)
 				$model->save();
+				
+				$timecard->uid =$_POST['Forgot']['uid'];
+				$timecard->shift_start = $_POST['Forgot']['start'];
+				$timecard->shift_end = $_POST['Forgot']['end'];
+			
+				$timecard->save();
 				
 				// output success messages
 				echo "Your submission has been sucessfully saved. This window will automatically close in a few seconds";

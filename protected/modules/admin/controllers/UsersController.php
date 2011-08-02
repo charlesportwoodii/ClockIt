@@ -86,6 +86,7 @@ class UsersController extends Controller
 					}
 				}
 			else {
+				print_r($response);
 				$model->password = NULL;
 				}
 		}

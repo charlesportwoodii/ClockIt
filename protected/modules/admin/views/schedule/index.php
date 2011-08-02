@@ -11,7 +11,6 @@ $this->breadcrumbs=array(
 $this->menu=array(
 	array('label'=>'View Shifts', 'url'=>array('index')),
 	array('label'=>'View Schedule', 'url'=>array('viewschedule')),
-	array('label'=>'Export Shift Data', 'url'=>array('export')),
 );
 
 ?>

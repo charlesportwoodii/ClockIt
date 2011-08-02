@@ -72,7 +72,7 @@ return array(
 			),
 		),
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;port=3306;dbname=team55_clockit2',
+			'connectionString' => 'mysql:host=localhost;port=3306;dbname=team55_clockit',
 			'emulatePrepare' => true,
 			'username' => 'team55',
 			'password' => 'zdFH3E6dxp3L2zJu',
