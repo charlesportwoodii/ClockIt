@@ -38,7 +38,7 @@ class ScheduleController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$this->redirect('viewschedule');
+		$this->redirect('schedule/viewschedule');
 	}
 	
 	/**
