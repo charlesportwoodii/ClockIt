@@ -25,7 +25,7 @@
 			}
 			
 	$i = 0;
-	
+
 	foreach ($shifts['data'] as $shift) {
 		$start_timestamp = DateTime::createFromFormat('m-d-Y H:i', $shift['start_date']['month'] . "-" . $shift['start_date']['day'] . "-" . $shift['start_date']['year'] . " " . date("H:i", strtotime($shift['start_time']['time'])));
 		$end_timestamp = DateTime::createFromFormat('m-d-Y H:i', $shift['end_date']['month'] . "-" . $shift['end_date']['day'] . "-" . $shift['end_date']['year'] . " " . date("H:i", strtotime($shift['end_time']['time'])));
@@ -39,7 +39,7 @@
 			echo "}";
 		else
 			echo "},";
-	} 
+	}
 	?>
 	]
 <?  $this->endCache(); } ?>	

@@ -3,7 +3,7 @@
 // include the necessary css/js files for this view
 $this->pageTitle=Yii::app()->name . ' - Admin | Schedule' ;
 $this->breadcrumbs=array(
-	'Admin'=>array('admin'),
+	'Admin'=>array('/admin'),
 	'Shift Management'=>array('index'),
 	'View Schedule'
 );

@@ -205,7 +205,7 @@ class ScheduleController extends Controller
 			'Timecards',
 			array(
 				'criteria'=>array(
-					'condition'=>'uid='. $_GET['uid'] . ' AND shift_end != "0000-00-00 00:00:00"',
+					'condition'=>'uid='. $_GET['uid'] . ' AND shift_end != "0000-00-00 00:00:00  AND shift_start != shift_end"',
 				),
 			)
 		);

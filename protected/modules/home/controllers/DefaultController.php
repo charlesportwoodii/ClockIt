@@ -255,7 +255,7 @@ class DefaultController extends Controller
 			'Timecards',
 			array(
 				'criteria'=>array(
-					'condition'=>'uid='. Yii::app()->user->id . ' AND shift_end != "0000-00-00 00:00:00"',
+					'condition'=>'uid='. Yii::app()->user->id . ' AND shift_end != "0000-00-00 00:00:00 AND shift_start != shift_end"',
 				),
 			)
 		);
