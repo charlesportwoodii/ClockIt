@@ -16,7 +16,7 @@ $this->breadcrumbs=array(
 	This interface is <i><strong>strickly</strong></i> for filing new or unfiled forgot report, and should not be used to process current forgot reports. To manage forgotten shifts, use the <a href="<? echo $this->createUrl('/admin/forgot'); ?>">forgotten shift manager</a>.</p>
 	<? $this->renderPartial('_search',array('model'=>$model)); ?>
 	<br /><br />
-	<a href="<? echo $this->createUrl('banner?uid=' . $_POST['Users']['uid']); ?>" class="floatingLink">Banner view</a>
+	<? /*	<a href="<? echo $this->createUrl('banner?uid=' . $_POST['Users']['uid']); ?>" class="floatingLink">Banner view</a> */ ?>
 	<a href="<? echo $this->createUrl('export?uid=' . $_POST['Users']['uid']); ?>" class="floatingLink">Export</a>
 	<br /><br />
 	<div id='calendar'></div>

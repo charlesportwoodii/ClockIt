@@ -244,24 +244,29 @@ class DefaultController extends Controller
 		$csv->output (true, $name . '.csv', array_merge($headers,$dataReader));
 		
 	}
-	
+
 	public function actionScheduledShifts() {
-		// Connect to ShiftPlanning
-		$connection = new spConnect();
-		$sp = $connection->connectToShiftPlanning();
-		
-		// Load a data provider with shift information
-		$dataProvider=new CActiveDataProvider(
-			'Timecards',
-			array(
-				'criteria'=>array(
-					'condition'=>'uid='. Yii::app()->user->id . ' AND shift_end != "0000-00-00 00:00:00 AND shift_start != shift_end"',
-				),
-			)
-		);
-		$this->renderPartial('_scheduledShifts', array('sp'=>$sp, 'dataProvider'=>$dataProvider), false, true);
-		}
-		
+                // Connect to ShiftPlanning
+                $connection = new spConnect();
+                $sp = $connection->connectToShiftPlanning();
+
+                $shift_start = date("Y-m-d 00:00:00", $_GET['start']);
+                $shift_end = date("Y-m-d 00:00:00", $_GET['end']);
+
+                $sql = 'uid='. Yii::app()->user->id . ' AND shift_end != "0000-00-00 00:00:00" AND shift_start != shift_end AND shift_start > "' . $shift_start . '" AND shift_end < "' . $shift_end . '"';
+                // Load a data provider with shift information
+                $dataProvider=new CActiveDataProvider(
+                        'Timecards',
+                        array(
+                                'criteria'=>array(
+                                        'condition'=>$sql
+                                ),
+                        )
+                );
+
+                $this->renderPartial('_scheduledShifts', array('sp'=>$sp, 'dataProvider'=>$dataProvider), false, true);
+                }
+	
 	public function actionforgotHelper() {
 		if (isset($_POST['Forgot'])) {			
 			$model = new Forgot;

@@ -240,6 +240,9 @@ class CronController extends CController
 		
 		// Run the analyze table command
 		$this->connection->createCommand('ANALYZE TABLE  `announcements` , `comments` , `forgot` , `roles` , `serverVariables` , `timecards` , `users` , `watchdog`')->execute();
+
+		// Delete erronious shifts	
+		$this->connection->createCommand('DELETE FROM timecards WHERE shift_start = shift_end')->execute();	
 		
 		// Log the action
 		$model = new Watchdog;

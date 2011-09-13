@@ -244,7 +244,7 @@ $this->menu=array(
 	$(document).ready(function(){
 		// Clear the input form on page load
 		$('form#clock-form :input').val("");
-		setTimeout(function() {location.reload(true }, 3600000);	
+		setTimeout(function() {location.reload(true) }, 3600000);	
 		// Load our slider function
 		$("#slider").easySlider({ 
 			controlsShow: false,

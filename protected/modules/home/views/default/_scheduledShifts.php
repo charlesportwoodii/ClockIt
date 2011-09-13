@@ -5,18 +5,20 @@
 		$end_date = date("Y-m-d", $_GET['end']);
 		$shifts = $sp->getShifts( array( 'start_date' => $start_date, 'end_date' => $end_date ) );
 ?>
-
-[
-<?	
+[<?	
 	foreach ($dataProvider->data as $data) {
 		echo "{";
 		echo '"id":' . $data->pid . ",";
-        echo '"start":"' . date("c", strtotime($data->shift_start)) . "\",";
-        echo '"end":"'   . date("c", strtotime($data->shift_end)) . "\",";
+        	echo '"start":"' . date("c", strtotime($data->shift_start)) . "\",";
+        	echo '"end":"'   . date("c", strtotime($data->shift_end)) . "\",";
 		echo '"title":"Clocked Time"';
 		echo "},";
 			} 
 	$i = 0;
+	
+	if (!empty($shifts['data']))
+	{
+
 	foreach ($shifts['data'] as $shift) {
 		$start_timestamp = DateTime::createFromFormat('m-d-Y H:i', $shift['start_date']['month'] . "-" . $shift['start_date']['day'] . "-" . $shift['start_date']['year'] . " " . date("H:i", strtotime($shift['start_time']['time'])));
 		$end_timestamp = DateTime::createFromFormat('m-d-Y H:i', $shift['end_date']['month'] . "-" . $shift['end_date']['day'] . "-" . $shift['end_date']['year'] . " " . date("H:i", strtotime($shift['end_time']['time'])));
@@ -31,6 +33,6 @@
 		else
 			echo "},";
 	} 
-	?>
-	]
+	}
+	?>]
 <?  $this->endCache(); } ?>	
