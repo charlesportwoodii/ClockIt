@@ -1,4 +1,15 @@
 <script>
+
+function cleanSpaces(text) {
+          var returnText = "";
+          for(var i = 0; i < text.length; i++) {
+                  if(text[i] != ' ')
+                          returnText += text[i];
+          }
+          return returnText;
+  }
+
+
 $(document).ready(function() {
 
 
@@ -32,97 +43,7 @@ $(document).ready(function() {
          return $(window).height() - $("h1").outerHeight() - 1;
       },
       eventRender : function(calEvent, $event) {
-         if (calEvent.title == "CopyCat") {
-            $event.css("backgroundColor", "#f5f5ea");
-            $event.find(".wc-time").css({
-               "backgroundColor" : "#db5e78",
-               "border" : "1px solid #888",
-            });
-			$event.find(".wc-title").css({
-			   "color" : "#db5e78",
-            });
-         }
-		else if (calEvent.title == "Call Center 1") {
-            $event.css("backgroundColor", "#a02323");
-            $event.find(".wc-time").css({
-               "backgroundColor" : "#8f1d1d",
-               "border" : "1px solid #888",
-            });
-			$event.find(".wc-title").css({
-			   "color" : "#FFFFFF",
-            });
-			}
-		 else if (calEvent.title == "Call Center 2") {
-            $event.css("backgroundColor", "#f2f2e9");
-            $event.find(".wc-time").css({
-               "backgroundColor" : "#570026",
-               "border" : "1px solid #888",
-            });
-			$event.find(".wc-title").css({
-			   "color" : "#570026",
-            });
-         }
-		else if (calEvent.title == "Front Desk 1") {
-            $event.css("backgroundColor", "#40a488");
-            $event.find(".wc-time").css({
-               "backgroundColor" : "#0e4a37",
-               "border" : "1px solid #888",
-            });
-			$event.find(".wc-title").css({
-			   "color" : "#FFFFFF",
-            });
-         }
-		else if (calEvent.title == "Front Desk 2") {
-            $event.css("backgroundColor", "#84a9a3");
-            $event.find(".wc-time").css({
-               "backgroundColor" : "#49706c",
-               "border" : "1px solid #888",
-            });
-			$event.find(".wc-title").css({
-			   "color" : "#FFFFFF",
-            });
-         }
-		else if (calEvent.title == "Repair Center 1") {
-            $event.css("backgroundColor", "#3740ac");
-            $event.find(".wc-time").css({
-               "backgroundColor" : "#080e5e",
-               "border" : "1px solid #888",
-            });
-			$event.find(".wc-title").css({
-			   "color" : "#FFFFFF",
-            });
-         }
-		else if (calEvent.title == "Repair Center 2") {
-            $event.css("backgroundColor", "#4584a3");
-            $event.find(".wc-time").css({
-               "backgroundColor" : "#434646",
-               "border" : "1px solid #888",
-            });
-			$event.find(".wc-title").css({
-			   "color" : "#FFFFFF",
-            });
-         }
-		else if (calEvent.title == "Switchboard") {
-            $event.css("backgroundColor", "#dfc144");
-            $event.find(".wc-time").css({
-               "backgroundColor" : "#aa8a0c",
-               "border" : "1px solid #888",
-            });
-			$event.find(".wc-title").css({
-			   "color" : "#FFFFFF",
-            });
-         }
-		else if (calEvent.title == "Supervisor") {
-            $event.css("backgroundColor", "#9ca845");
-            $event.find(".wc-time").css({
-               "backgroundColor" : "#5e6a08",
-               "border" : "1px solid #888",
-            });
-			$event.find(".wc-title").css({
-			   "color" : "#FFFFFF",
-            });
-         }
-		 
+	$event.addClass(cleanSpaces(calEvent.title));
       },
       eventClick : function(calEvent, $event) {
 

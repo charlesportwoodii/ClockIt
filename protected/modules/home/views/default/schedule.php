@@ -1,6 +1,10 @@
 	<?php
 	
 // include the necessary css/js files for this view
+$baseUrl = Yii::app()->baseUrl; 
+$cs = Yii::app()->getClientScript();
+$cs->registerCssFile($baseUrl.'/css/CustomCalendar.css');
+
 $this->pageTitle=Yii::app()->name . ' - Schedule' ;
 $this->breadcrumbs=array(
 	'Home'=>array('../home'),

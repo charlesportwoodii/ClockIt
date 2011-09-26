@@ -35,6 +35,7 @@
 		echo '"id":' . $shift['id'] . ",";
         echo '"start":"' . $start_timestamp->format('c') . "\",";
         echo '"end":"'   . $end_timestamp->format('c') . "\",";
+		echo '"title":"' . $shift['schedule_name'] . "\",";
 		echo '"title":"' . $shift['schedule_name'] . '"';
 		if (sizeof($shifts['data']) == ++$i)
 			echo "}";
