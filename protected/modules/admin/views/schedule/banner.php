@@ -1,4 +1,3 @@
-<!-- TODO: Fix bug with days with multiple shifts -->
 <?
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
@@ -7,50 +6,71 @@ $cs->registerCssFile($baseUrl.'/css/banner.css');
 
 <table border = 1>
 	<?
-	print_r($dataReader);
 	// Begin Printing Header
-	list($year,$month,$day) = explode("-", date("Y-m-d", strtotime($dataReader[0]['shift_start'])));
-	list($year1,$month1,$day1) = explode("-", date("Y-m-d", time()));
 
-	if ($month == $month1) { 	// If the month we're viewing is the current month				
+	list($firstYear,$firstMonth,$firstDay) = explode("-", date("Y-m-d", strtotime($dataReader[0]['shift_start'])));
+	list($currentYear,$currentMonth,$currentDay) = explode("-", date("Y-m-d", time()));
+
+	if ($firstMonth == $currentMonth) {	
 		echo "<tr>";
-		for ($i = $day; $i < $day1; $i++) {
-			echo "<th>" . date('l M j',mktime(0, 0, 0, $month, $i, $year)) . "</th>";
+		for ($i = $firstDay; $i < $currentDay; $i++) {
+			echo "<th>" . date('l M j',mktime(0, 0, 0, $firstMonth, $i, $firstYear)) . "</th>";
 			}
 		echo "</tr>";					
 		echo "<tr>";
 		}
 	else {
-		$daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-		$daysInMonth1 = cal_days_in_month(CAL_GREGORIAN, $month1, $year1);
+		$daysInCurrentMonth = cal_days_in_month(CAL_GREGORIAN, $firstMonth, $firstYear);
+		$daysInFirstMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);
 				
 		echo "<tr>";
-		for ($i = $day; $i <= $daysInMonth; $i++) {
-			echo "<th>" . date('l M j',mktime(0, 0, 0, $month, $i, $year)) . "</th>";
+		for ($i = $firstDay; $i <= $daysInCurrentMonth; $i++) {
+			echo "<th>" . date('l M j',mktime(0, 0, 0, $firstMonth, $i, $firstYear)) . "</th>";
 			}
-		for ($i = 1; $i < $day1; $i++) {
-			echo "<th>" . date('l M j',mktime(0, 0, 0, $month1, $i, $year1)) . "</th>";
+		for ($i = 1; $i < $currentDay; $i++) {
+			echo "<th>" . date('l M j',mktime(0, 0, 0, $currentMonth, $i, $currentYear)) . "</th>";
 			}
 		echo "</tr>";
 		echo "<tr >";
 		} 
-		
-	$i = $day;
-
+	
 	// Begin Printing Times
+	
+	$dayOnTable = intval ($firstDay);
 
 	echo "<td>";
-		foreach($dataReader as $item) {
-			if ((int)date("d", strtotime($item['shift_start'])) == $i) {
-				echo date("h:i a", strtotime($item['shift_start']));
-				echo " - " .  date("h:i a", strtotime($item['shift_end']));
-				echo "</td><td>";
+		for($i = 0; $i < count($dataReader); $i++) {
+
+			$shiftStart = strtotime($dataReader[$i]['shift_start']);
+			$shiftEnd = strtotime($dataReader[$i]['shift_end']);
+
+			if ((int)date("d", $shiftStart) == $dayOnTable) {
+				echo date("h:i a", $shiftStart);
+				echo '<br />' . date("h:i a", $shiftEnd);
+			}
+
+			for($j = $i; $j < count($dataReader); $j++) {
+				$nextShiftStart = strtotime($dataReader[$i+1]['shift_start']);
+				$nextShiftEnd = strtotime($dataReader[$i+1]['shift_end']);
+	
+				if((int)date("d", $nextShiftStart) == $dayOnTable) {			
+					echo '<br /><br />';
+					echo date("h:i a", $nextShiftStart);
+					echo '<br />' . date("h:i a", $nextShiftEnd); 
 				}
-			else {
-				echo "</td><td>";
-				$i++;
+				else {
+					break;
 				}
 			}
+
+			echo "</td><td>";
+			$dayOnTable++;
+		}
 ?>
 	</tr>
 </table>
+<?
+	echo "<pre>";
+	print_r($dataReader);
+	echo "</pre>";
+?>
