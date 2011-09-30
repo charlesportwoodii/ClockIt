@@ -199,7 +199,7 @@ class DefaultController extends Controller
 		$this->layout = false;
 		$connection=Yii::app()->db;
 		
-		$sql = "SELECT uid, shift_start, shift_end FROM timecards WHERE uid = :uid AND shift_start >= :timestamp";
+		$sql = "SELECT uid, shift_start, shift_end FROM timecards WHERE uid = :uid AND shift_start >= :timestamp AND shift_start < shift_end AND shift_end <> '0000-00-00 00:00:00' ORDER BY shift_start";
 		
 		$timestamp = date("Y-m-d 00:00:00", strtotime("20 days ago"));
 		

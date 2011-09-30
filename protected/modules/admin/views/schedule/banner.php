@@ -3,7 +3,7 @@ $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl.'/css/banner.css');
 ?>
-
+<h2>Clocked Times</h2>
 <table border = 1>
 <?
 // Begin Printing Header
@@ -52,69 +52,29 @@ for($i = $beginning; $i < $end; $i++) {
 $dayOnTable = $beginning;
 foreach($printer as $day => $i) {
 	echo '<td>';
-	if($dayOnTable == $day) {
-		echo "if";
-		foreach($i as $j) {
-			$shiftStart = strtotime($j['shift_start']);
-			echo date("h:i a", $shiftStart);
-			echo '<br />' . date("h:i a", strtotime($j['shift_end']));
-			echo '<br /><br />';
-		}
-		$dayOnTable++;
-	}
-	else {
-		echo "else";
+	if($dayOnTable != $day) {
 		// Loop through the days on the table until we find the one that matches $day
 		while($dayOnTable < $end && $dayOnTable < $day) {
 			echo "</td><td>";
 			$dayOnTable++;
 		}
 	}
+	foreach($i as $j) {
+		$shiftStart = strtotime($j['shift_start']);
+		echo date("h:i a", $shiftStart);
+		echo '<br />' . date("h:i a", strtotime($j['shift_end']));
+		echo '<br /><br />';
+	}
+	$dayOnTable++;
 	echo '</td>';
 }
-
-//	echo "<td>";
-//		for($i = 0; $i < count($dataReader); $i++) {
-//
-//			$shiftStart = strtotime($dataReader[$i]['shift_start']);
-//			$shiftEnd = strtotime($dataReader[$i]['shift_end']);
-//			for($k = $dayOnTable; $k < $firstDay + $NUMBER_OF_DAYS; $k++) {
-//				$dayOfCurrentShift = (int)date("d", $shiftStart);
-//				if ($dayOfCurrentShift == $k) {
-//					echo date("h:i a", $shiftStart);
-//					echo '<br />' . date("h:i a", $shiftEnd);
-//					for($j = $i + 1; $j < count($dataReader); $j++) {
-//						$nextShiftStart = strtotime($dataReader[$j]['shift_start']);
-//						$nextShiftEnd = strtotime($dataReader[$j]['shift_end']);
-//			
-//						if((int)date("d", $nextShiftStart) == $k) {			
-//							echo '<br /><br />';
-//							echo date("h:i a", $nextShiftStart);
-//							echo '<br />' . date("h:i a", $nextShiftEnd); 
-//						}
-//						else {
-//							$i = $j - 1;
-//							break;
-//						}
-//					}
-//				}
-//				else if($k < (int)date("d", strtotime($dataReader[$i]['shift_start']))) {
-//					echo '</td><td>';
-//				}
-//				else {
-//					break;
-//				}
-//			}
-//
-//			echo "</td><td>";
-//			$dayOnTable++;
-//		}
 ?>
 </tr>
-</table>
+<tr>
 <?
-echo "<pre>";
-print_r($printer);
-print_r($dataReader);
-echo "</pre>";
+$scheduledShifts = $sp->getShifts(array( 'start_date' => $firstDay, 'end_date' => $end) );
+
+echo '<pre';
+print_r($scheduledShifts);
+echo '</pre>';
 ?>

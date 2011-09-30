@@ -49,7 +49,7 @@ class ScheduleController extends Controller
 		$this->layout = false;
 		$connection=Yii::app()->db;
 		
-		$sql = "SELECT uid, shift_start, shift_end FROM timecards WHERE uid = :uid AND shift_start >= :timestamp ORDER BY shift_start";
+		$sql = "SELECT uid, shift_start, shift_end FROM timecards WHERE uid = :uid AND shift_start >= :timestamp AND shift_start < shift_end AND shift_end <> '0000-00-00 00:00:00' ORDER BY shift_start";
 		
 		$timestamp = date("Y-m-d 00:00:00", strtotime("20 days ago"));
 		
@@ -61,9 +61,12 @@ class ScheduleController extends Controller
 		$command=$connection->createCommand($sql);
 		$command->bindParam(":uid",$_GET['uid'],PDO::PARAM_STR);
 		$command->bindParam(":timestamp",$timestamp,PDO::PARAM_STR);
+
+		$connection = new spConnect();
+                $sp = $connection->connectToShiftPlanning();
 		$dataReader = $command->queryAll();
 		
-		$this->render('banner', array('dataReader'=>$dataReader));
+		$this->render('banner', array('dataReader'=>$dataReader, 'sp' => $sp));
 	}
 	
 	/**
