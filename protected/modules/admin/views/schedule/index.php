@@ -26,7 +26,20 @@ $this->menu=array(
 	<br />
 	<br />
 	<br />
-	<a href="<? echo $this->createUrl('banner', array('uid'=>$model->uid, 'shift_start'=>substr($model->shift_start,2), 'shift_end'=>substr($model->shift_end,2)), '&'); ?>" class="floatingLink">Banner view</a>
+	<a href="<? echo $this->createUrl(
+		'banner', 
+		array(
+			'uid'=>$model->uid, 
+			'shift_start'=>substr($model->shift_start,2), 
+			'shift_end'=>substr($model->shift_end,2), 
+			'spUid'=>$model->getSPuid($model->uid)
+		), 
+		'&'
+	); ?>" class="floatingLink">Banner view</a>
+
+	<?php echo '<pre>'; print_r($model->getSPuid($model->uid)); echo '</pre>'; ?>
+
+
 	<?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'users-grid',
 	'dataProvider'=>$model->search(),

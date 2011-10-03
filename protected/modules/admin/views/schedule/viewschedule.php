@@ -28,9 +28,11 @@ $this->breadcrumbs=array(
 	else {
 		$userId = Yii::app()->user->getId();
 	}
+	$spUid = $model->getSPuid($userId);
 	?>
 
-	<a href="<? echo $this->createUrl('banner?uid=' . $userId); ?>" class="floatingLink">Banner view</a>  
+	<a href="<? echo $this->createUrl('banner?uid=' . $userId . '&spuid=' . $spUid); ?>" 
+		class="floatingLink">Banner view</a>  
 	<a href="<? echo $this->createUrl('export?uid=' . $userId); ?>" class="floatingLink">Export</a>
 	<br /><br />
 	<div id='calendar'></div>

@@ -72,9 +72,18 @@ foreach($printer as $day => $i) {
 </tr>
 <tr>
 <?
-$scheduledShifts = $sp->getShifts(array( 'start_date' => $firstDay, 'end_date' => $end) );
+$startDate = date("Y-m-d", strtotime($dataReader[0]['shift_start']));
+$endDate = date("Y-m-d", time());
+$scheduledShifts = $sp->getShifts(
+		array(
+			'mode'=>'employees',
+			'employees'=>$_GET['spuid'],
+			'start_date' => $startDate,
+			'end_date' => $endDate
+		     )
+		);
 
-echo '<pre';
+echo '<pre>';
 print_r($scheduledShifts);
 echo '</pre>';
 ?>
