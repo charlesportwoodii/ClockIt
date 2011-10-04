@@ -212,8 +212,12 @@ class DefaultController extends Controller
 		$command->bindParam(":uid",Yii::app()->user->id,PDO::PARAM_STR);
 		$command->bindParam(":timestamp",$timestamp,PDO::PARAM_STR);
 		$dataReader = $command->queryAll();
+		$model = new Users();
+		$spUid = $model->getSPuid(Yii::app()->user->id);
+		$connection = new spConnect();
+		$sp = $connection->connectToShiftPlanning();
 		
-		$this->render('banner', array('dataReader'=>$dataReader));
+		$this->render('banner', array('dataReader'=>$dataReader, 'spUid' => $spUid, 'sp' => $sp));
 	}
 	
 	/**

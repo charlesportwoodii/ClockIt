@@ -3,7 +3,7 @@ $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl.'/css/banner.css');
 ?>
-<h2>Clocked Times</h2>
+<h2>Clocked Times and Scheduled Times</h2>
 <table border = 1>
 <?
 // Begin Printing Header
@@ -82,8 +82,35 @@ $scheduledShifts = $sp->getShifts(
 			'end_date' => $endDate
 		     )
 		);
+unset($printer);
+$printer = array();
+for($i = $beginning; $i < $end; $i++) {
+	$k = 0;
+	foreach($scheduledShifts['data'] as $j) {
+		if($i == $j['start_date']['day']) {
+			$printer[$i][$k]['shift_start'] = $j['start_time']['time'];
+			$printer[$i][$k]['shift_end'] = $j['end_time']['time'];
+			$k++;
+		}
+	}
+}
 
-echo '<pre>';
-print_r($scheduledShifts);
-echo '</pre>';
-?>
+$dayOnTable = $beginning;
+foreach($printer as $day => $i) {
+	echo '<td>';
+	if($dayOnTable != $day) {
+		// Loop through the days on the table until we find the one that matches $day
+		while($dayOnTable < $end && $dayOnTable < $day) {
+			echo "</td><td>";
+			$dayOnTable++;
+		}
+	}
+	foreach($i as $j) {
+		$shiftStart = strtotime($j['shift_start']);
+		echo date("h:i a", $shiftStart);
+		echo '<br />' . date("h:i a", strtotime($j['shift_end']));
+		echo '<br /><br />';
+	}
+	$dayOnTable++;
+	echo '</td>';
+}
