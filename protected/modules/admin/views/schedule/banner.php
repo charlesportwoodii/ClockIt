@@ -82,35 +82,42 @@ $scheduledShifts = $sp->getShifts(
 			'end_date' => $endDate
 		     )
 		);
-unset($printer);
-$printer = array();
-for($i = $beginning; $i < $end; $i++) {
-	$k = 0;
-	foreach($scheduledShifts['data'] as $j) {
-		if($i == $j['start_date']['day']) {
-			$printer[$i][$k]['shift_start'] = $j['start_time']['time'];
-			$printer[$i][$k]['shift_end'] = $j['end_time']['time'];
-			$k++;
-		}
-	}
-}
 
-$dayOnTable = $beginning;
-foreach($printer as $day => $i) {
-	echo '<td>';
-	if($dayOnTable != $day) {
-		// Loop through the days on the table until we find the one that matches $day
-		while($dayOnTable < $end && $dayOnTable < $day) {
-			echo "</td><td>";
-			$dayOnTable++;
+echo '<pre>';
+print_r($scheduledShifts);
+echo '</pre>';
+
+if(isset($scheduledShifts['data'])) {
+	unset($printer);
+	$printer = array();
+	for($i = $beginning; $i < $end; $i++) {
+		$k = 0;
+		foreach($scheduledShifts['data'] as $j) {
+			if($i == $j['start_date']['day']) {
+				$printer[$i][$k]['shift_start'] = $j['start_time']['time'];
+				$printer[$i][$k]['shift_end'] = $j['end_time']['time'];
+				$k++;
+			}
 		}
 	}
-	foreach($i as $j) {
-		$shiftStart = strtotime($j['shift_start']);
-		echo date("h:i a", $shiftStart);
-		echo '<br />' . date("h:i a", strtotime($j['shift_end']));
-		echo '<br /><br />';
+
+	$dayOnTable = $beginning;
+	foreach($printer as $day => $i) {
+		echo '<td>';
+		if($dayOnTable != $day) {
+			// Loop through the days on the table until we find the one that matches $day
+			while($dayOnTable < $end && $dayOnTable < $day) {
+				echo "</td><td>";
+				$dayOnTable++;
+			}
+		}
+		foreach($i as $j) {
+			$shiftStart = strtotime($j['shift_start']);
+			echo date("h:i a", $shiftStart);
+			echo '<br />' . date("h:i a", strtotime($j['shift_end']));
+			echo '<br /><br />';
+		}
+		$dayOnTable++;
+		echo '</td>';
 	}
-	$dayOnTable++;
-	echo '</td>';
 }
