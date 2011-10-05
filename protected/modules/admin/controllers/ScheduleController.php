@@ -66,7 +66,7 @@ class ScheduleController extends Controller
                 $sp = $connection->connectToShiftPlanning();
 		$dataReader = $command->queryAll();
 		
-		$this->render('banner', array('dataReader'=>$dataReader, 'sp' => $sp));
+		$this->render('banner', array('dataReader'=>$dataReader, 'sp' => $sp, 'timestamp' => $timestamp));
 	}
 	
 	/**

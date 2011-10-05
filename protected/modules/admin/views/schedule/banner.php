@@ -72,7 +72,7 @@ foreach($printer as $day => $i) {
 </tr>
 <tr>
 <?
-$startDate = date("Y-m-d", strtotime($dataReader[0]['shift_start']));
+$startDate = $timestamp;
 $endDate = date("Y-m-d", time());
 $scheduledShifts = $sp->getShifts(
 		array(
@@ -92,13 +92,13 @@ if(isset($scheduledShifts['data'])) {
 	$printer = array();
 	for($i = $beginning; $i < $end; $i++) {
 		$k = 0;
-		foreach($scheduledShifts['data'] as $j) {
-			if($i == $j['start_date']['day']) {
-				$printer[$i][$k]['shift_start'] = $j['start_time']['time'];
-				$printer[$i][$k]['shift_end'] = $j['end_time']['time'];
-				$k++;
-			}
-		}
+//		foreach($scheduledShifts['data'] as $j) {
+//			if($i == $j['start_date']['day']) {
+//				$printer[$i][$k]['shift_start'] = $j['start_time']['time'];
+//				$printer[$i][$k]['shift_end'] = $j['end_time']['time'];
+//				$k++;
+//			}
+//		}
 	}
 
 	$dayOnTable = $beginning;
