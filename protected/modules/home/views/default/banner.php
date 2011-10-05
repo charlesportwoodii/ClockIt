@@ -77,13 +77,14 @@ $endDate = date("Y-m-d", time());
 $scheduledShifts = $sp->getShifts(
 		array(
 			'mode'=>'employees',
-			'employees'=>$spuid,
+			'employees'=>$spUid,
 			'start_date' => $startDate,
 			'end_date' => $endDate
 		     )
 		);
 unset($printer);
 $printer = array();
+
 for($i = $beginning; $i < $end; $i++) {
 	$k = 0;
 	foreach($scheduledShifts['data'] as $j) {
