@@ -8,7 +8,9 @@ $cs->registerCssFile($baseUrl.'/css/banner.css');
 <?
 // Begin Printing Header
 
-list($firstYear,$firstMonth,$firstDay) = explode("-", date("Y-m-d", strtotime($dataReader[0]['shift_start'])));
+list($firstYear,$firstMonth,$firstDay) = explode("-", $timestamp);
+$firstDay = substr($firstDay, 0, strpos($firstDay, ' '));
+
 list($currentYear,$currentMonth,$currentDay) = explode("-", date("Y-m-d", time()));
 
 if ($firstMonth == $currentMonth) {	
@@ -22,7 +24,6 @@ if ($firstMonth == $currentMonth) {
 else {
 	$daysInCurrentMonth = cal_days_in_month(CAL_GREGORIAN, $firstMonth, $firstYear);
 	$daysInFirstMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);
-
 	echo "<tr>";
 	for ($i = $firstDay; $i <= $daysInCurrentMonth; $i++) {
 		echo "<th>" . date('l M j',mktime(0, 0, 0, $firstMonth, $i, $firstYear)) . "</th>";
@@ -72,7 +73,7 @@ foreach($printer as $day => $i) {
 </tr>
 <tr>
 <?
-$startDate = date("Y-m-d", strtotime($dataReader[0]['shift_start']));
+$startDate = $timestamp;
 $endDate = date("Y-m-d", time());
 $scheduledShifts = $sp->getShifts(
 		array(
@@ -82,36 +83,38 @@ $scheduledShifts = $sp->getShifts(
 			'end_date' => $endDate
 		     )
 		);
-unset($printer);
-$printer = array();
 
-for($i = $beginning; $i < $end; $i++) {
-	$k = 0;
-	foreach($scheduledShifts['data'] as $j) {
-		if($i == $j['start_date']['day']) {
-			$printer[$i][$k]['shift_start'] = $j['start_time']['time'];
-			$printer[$i][$k]['shift_end'] = $j['end_time']['time'];
-			$k++;
+if($scheduledShifts['data'] != '' && $scheduledShifts['data'] != NULL) {
+	unset($printer);
+	$printer = array();
+	for($i = $beginning; $i < $end; $i++) {
+		$k = 0;
+		foreach($scheduledShifts['data'] as $j) {
+			if($i == $j['start_date']['day']) {
+				$printer[$i][$k]['shift_start'] = $j['start_time']['time'];
+				$printer[$i][$k]['shift_end'] = $j['end_time']['time'];
+				$k++;
+			}
 		}
 	}
-}
 
-$dayOnTable = $beginning;
-foreach($printer as $day => $i) {
-	echo '<td>';
-	if($dayOnTable != $day) {
-		// Loop through the days on the table until we find the one that matches $day
-		while($dayOnTable < $end && $dayOnTable < $day) {
-			echo "</td><td>";
-			$dayOnTable++;
+	$dayOnTable = $beginning;
+	foreach($printer as $day => $i) {
+		echo '<td>';
+		if($dayOnTable != $day) {
+			// Loop through the days on the table until we find the one that matches $day
+			while($dayOnTable < $end && $dayOnTable < $day) {
+				echo "</td><td>";
+				$dayOnTable++;
+			}
 		}
+		foreach($i as $j) {
+			$shiftStart = strtotime($j['shift_start']);
+			echo date("h:i a", $shiftStart);
+			echo '<br />' . date("h:i a", strtotime($j['shift_end']));
+			echo '<br /><br />';
+		}
+		$dayOnTable++;
+		echo '</td>';
 	}
-	foreach($i as $j) {
-		$shiftStart = strtotime($j['shift_start']);
-		echo date("h:i a", $shiftStart);
-		echo '<br />' . date("h:i a", strtotime($j['shift_end']));
-		echo '<br /><br />';
-	}
-	$dayOnTable++;
-	echo '</td>';
 }

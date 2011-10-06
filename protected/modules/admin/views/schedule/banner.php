@@ -8,7 +8,8 @@ $cs->registerCssFile($baseUrl.'/css/banner.css');
 <?
 // Begin Printing Header
 
-list($firstYear,$firstMonth,$firstDay) = explode("-", date("Y-m-d", strtotime($dataReader[0]['shift_start'])));
+list($firstYear,$firstMonth,$firstDay) = explode("-", $timestamp);
+$firstDay = substr($firstDay, 0, strpos($firstDay, ' '));
 list($currentYear,$currentMonth,$currentDay) = explode("-", date("Y-m-d", time()));
 
 if ($firstMonth == $currentMonth) {	
@@ -22,7 +23,6 @@ if ($firstMonth == $currentMonth) {
 else {
 	$daysInCurrentMonth = cal_days_in_month(CAL_GREGORIAN, $firstMonth, $firstYear);
 	$daysInFirstMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);
-
 	echo "<tr>";
 	for ($i = $firstDay; $i <= $daysInCurrentMonth; $i++) {
 		echo "<th>" . date('l M j',mktime(0, 0, 0, $firstMonth, $i, $firstYear)) . "</th>";
@@ -83,22 +83,18 @@ $scheduledShifts = $sp->getShifts(
 		     )
 		);
 
-echo '<pre>';
-print_r($scheduledShifts);
-echo '</pre>';
-
-if(isset($scheduledShifts['data'])) {
+if($scheduledShifts['data'] != '' && $scheduledShifts['data'] != NULL) {
 	unset($printer);
 	$printer = array();
 	for($i = $beginning; $i < $end; $i++) {
 		$k = 0;
-//		foreach($scheduledShifts['data'] as $j) {
-//			if($i == $j['start_date']['day']) {
-//				$printer[$i][$k]['shift_start'] = $j['start_time']['time'];
-//				$printer[$i][$k]['shift_end'] = $j['end_time']['time'];
-//				$k++;
-//			}
-//		}
+		foreach($scheduledShifts['data'] as $j) {
+			if($i == $j['start_date']['day']) {
+				$printer[$i][$k]['shift_start'] = $j['start_time']['time'];
+				$printer[$i][$k]['shift_end'] = $j['end_time']['time'];
+				$k++;
+			}
+		}
 	}
 
 	$dayOnTable = $beginning;

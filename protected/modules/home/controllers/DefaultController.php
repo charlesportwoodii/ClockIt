@@ -217,7 +217,12 @@ class DefaultController extends Controller
 		$connection = new spConnect();
 		$sp = $connection->connectToShiftPlanning();
 		
-		$this->render('banner', array('dataReader'=>$dataReader, 'spUid' => $spUid, 'sp' => $sp));
+		$this->render('banner', array(
+			'dataReader'=>$dataReader, 
+			'spUid' => $spUid, 
+			'sp' => $sp, 
+			'timestamp' => $timestamp
+			));
 	}
 	
 	/**
