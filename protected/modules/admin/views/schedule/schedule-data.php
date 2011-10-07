@@ -91,11 +91,10 @@ if(start === "" || end === "" || type === "" || comment === "") {
 }
 else {
 	// Ajax Callback to update our form
-	// TODO: put <?echo $uid; ?> where uid is 4 lines below, I changed it to make Lint happy
 	$.ajax({
 url: 'forgotHelper',
 type: 'POST',
-data: {"Forgot[asid]": calEvent.id, "Forgot[uid]": uid, "Forgot[start]": start, "Forgot[end]": end, "Forgot[type]": type, "Forgot[comment]": comment},
+data: {"Forgot[asid]": calEvent.id, "Forgot[uid]": <?echo $uid; ?>, "Forgot[start]": start, "Forgot[end]": end, "Forgot[type]": type, "Forgot[comment]": comment},
 beforeSend: function() {
 $("#punchBox").bPopup({modalClose: false, escClose: false, vStart: 350});
 },
@@ -164,11 +163,10 @@ setTimeout(function(){$("#loading").replaceWith(loadingForm);},6250);
 }
 else {
 	// Ajax Callback to update our form
-	// TODO: Replace uid with <? echo $uid ?>
 	$.ajax({
 url: 'forgotHelper',
 type: 'POST',
-data: {"Forgot[uid]": uid, "Forgot[start]": start, "Forgot[end]": end, "Forgot[type]": type, "Forgot[comment]": comment},
+data: {"Forgot[uid]": <? echo $uid ?>, "Forgot[start]": start, "Forgot[end]": end, "Forgot[type]": type, "Forgot[comment]": comment},
 beforeSend: function() {
 $("#punchBox").bPopup({modalClose: false, escClose: false, vStart: 350});
 },
@@ -182,8 +180,8 @@ error: function(data) {
 $("#loading").replaceWith(data);
 },
 complete: function() {
-setTimeout(function(){$("#punchBox").bPopup().close()},3000);						
-setTimeout(function(){$("#loading").replaceWith(loadingForm)},3250);
+setTimeout(function(){$("#punchBox").bPopup().close();},3000);						
+setTimeout(function(){$("#loading").replaceWith(loadingForm);},3250);
 }
 });
 }
@@ -204,10 +202,8 @@ $(window).resize().resize(); //fixes a bug in modal overlay size ??
 },
 noEvents : function() {
 	   },
-//data : "<? echo Yii::app()->baseUrl; ?>/admin/schedule/scheduledShifts?spUid=<? echo $spUid; ?>&uid=<? echo $uid; ?>",
-//     });
-// TODO: Uncomment above line and delete the one below
-data : "test"});
+data : "<? echo Yii::app()->baseUrl; ?>/admin/schedule/scheduledShifts?spUid=<? echo $spUid; ?>&uid=<? echo $uid; ?>",
+     });
 
 function resetForm($dialogContent) {
 	$dialogContent.find("input").val("");
@@ -256,8 +252,7 @@ $("select[name='start']").change(function() {
 		$endTimeField.html(
 			$endTimeOptions.filter(function() {
 				return (startTime < $timestampsOfOptions.end[$(this).text()]);
-				});
-			);
+				}));
 
 		var endTimeSelected = false;
 		$endTimeField.find("option").each(function() {
