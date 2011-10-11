@@ -17,6 +17,7 @@ $this->breadcrumbs=array(
 	<? $this->renderPartial('_search',array('model'=>$model)); ?>
 	<br /><br />
 	<? /*	<a href="<? echo $this->createUrl('banner?uid=' . $_POST['Users']['uid']); ?>" class="floatingLink">Banner view</a> */ ?>
+	<a href="<? echo $this->createUrl('banner?uid=' . $_POST['Users']['uid']); ?>" class="floatingLink">Banner view</a>  
 	<a href="<? echo $this->createUrl('export?uid=' . $_POST['Users']['uid']); ?>" class="floatingLink">Export</a>
 	<br /><br />
 	<div id='calendar'></div>
