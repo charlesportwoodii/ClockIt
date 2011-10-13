@@ -56,105 +56,105 @@ $(document).ready(function() {
         },
         eventClick: function(calEvent, $event) {
 
-            if (calEvent.title != "Clocked Time") {
-                return;
-            }
+         if (calEvent.title != "Clocked Time") {
+             return;
+         }
 
-            var $dialogContent = $("#event_edit_container");
-            resetForm($dialogContent);
-            var startField = $dialogContent.find("select[name='start']").val(calEvent.start);
-            var endField = $dialogContent.find("select[name='end']").val(calEvent.end);
-            var type2 = $dialogContent.find("input[name='Forgot[type]']").val('1');
-            var typeField = $("input[name='Forgot[type]']:checked");
-            var commentField = $("textarea[name='Forgot_comments']");
+         var $dialogContent = $("#event_edit_container");
+         resetForm($dialogContent);
+         var startField = $dialogContent.find("select[name='start']").val(calEvent.start);
+         var endField = $dialogContent.find("select[name='end']").val(calEvent.end);
+         var type2 = $dialogContent.find("input[name='Forgot[type]']").val('1');
+         var typeField = $("input[name='Forgot[type]']:checked");
+         var commentField = $("textarea[name='Forgot_comments']");
 
-            $dialogContent.dialog({
-                modal: true,
-                title: "Submit a Forgotten Shift Notice",
-                closeOnEscape: false,
-                close: function() {
-                    $dialogContent.dialog("destroy");
-                    $dialogContent.hide();
-                },
-                buttons: {
-                    save: function() {
-                        // For some stupid reason we need to refresh our data TWICE to actually capture it
-                        typeField = $("input[name='Forgot[type]']:checked");
-                        typeField = $("input[name='Forgot[type]']:checked");
+         $dialogContent.dialog({
+             modal: true,
+             title: "Submit a Forgotten Shift Notice",
+             closeOnEscape: false,
+             close: function() {
+                 $dialogContent.dialog("destroy");
+                 $dialogContent.hide();
+             },
+             buttons: {
+                 save: function() {
+                     // For some stupid reason we need to refresh our data TWICE to actually capture it
+                     typeField = $("input[name='Forgot[type]']:checked");
+                     typeField = $("input[name='Forgot[type]']:checked");
 
-                        // Store in data vars
-                        var start = startField.val();
-                        var end = endField.val();
-                        var type = 5;
-                        var comment = commentField.val();
-                        var asid = calEvent.id;
-                        var loadingForm = '<div id="loading"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/load-circleBlock.gif" /><p>Please wait while ClockIt processes your request</p></div>';
+                     // Store in data vars
+                     var start = startField.val();
+                     var end = endField.val();
+                     var type = 5;
+                     var comment = commentField.val();
+                     var asid = calEvent.id;
+                     var loadingForm = '<div id="loading"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/load-circleBlock.gif" /><p>Please wait while ClockIt processes your request</p></div>';
 
-                        if (start === "" || end === "" || type === "" || comment === "") {
-                            $("#punchBox").bPopup({
-                                modalClose: false,
-                                escClose: true,
-                                vStart: 350
-                            });
-                            $("#loading").replaceWith("<div id=\"loading\"><strong>All fields are required. Please do not continue until you have filled in all parts of the form.</strong></div>");
-                            setTimeout(function() {
-                                $("#punchBox").bPopup().close();
-                            }, 6000);
-                            setTimeout(function() {
-                                $("#loading").replaceWith(loadingForm);
-                            }, 6250);
-                        } else {
-                            // Ajax Callback to update our form
-                            $.ajax({
-                                url: 'forgotHelper',
-                                type: 'POST',
-                                data: {
-                                    "Forgot[asid]": calEvent.id,
-                                    "Forgot[uid]": <? echo $uid; ?> , "Forgot[start]": start,
-                                    "Forgot[end]": end,
-                                    "Forgot[type]": type,
-                                    "Forgot[comment]": comment
-                                },
-                                beforeSend: function() {
-                                    $("#punchBox").bPopup({
-                                        modalClose: false,
-                                        escClose: false,
-                                        vStart: 350
-                                    });
-                                },
-                                success: function(data) {
-                                    // Close our Dialog box if successful, otherwise we need to keep it open
-                                    $("#loading").replaceWith("<div id=\"loading\"><strong>" + data + "</strong></div>");
-                                    $dialogContent.dialog("close");
-                                },
-                                error: function(data) {
-                                    // Yii error ouput for errors
-                                    $("#loading").replaceWith(data);
-                                },
-                                complete: function() {
-                                    setTimeout(function() {
-                                        $("#punchBox").bPopup().close();
-                                    }, 3000);
-                                    setTimeout(function() {
-                                        $("#loading").replaceWith(loadingForm);
-                                    }, 3250);
-                                }
+                     if (start === "" || end === "" || type === "" || comment === "") {
+                         $("#punchBox").bPopup({
+                             modalClose: false,
+                             escClose: true,
+                             vStart: 350
+                         });
+                         $("#loading").replaceWith("<div id=\"loading\"><strong>All fields are required. Please do not continue until you have filled in all parts of the form.</strong></div>");
+                         setTimeout(function() {
+                             $("#punchBox").bPopup().close();
+                         }, 6000);
+                         setTimeout(function() {
+                             $("#loading").replaceWith(loadingForm);
+                         }, 6250);
+                     } else {
+                         // Ajax Callback to update our form
+                         $.ajax({
+                             url: 'forgotHelper',
+                             type: 'POST',
+                             data: {
+                                 "Forgot[asid]": calEvent.id,
+                                 "Forgot[uid]": <? echo $uid; ?> , "Forgot[start]": start,
+                                 "Forgot[end]": end,
+                                 "Forgot[type]": type,
+                                 "Forgot[comment]": comment
+                             },
+                             beforeSend: function() {
+                                 $("#punchBox").bPopup({
+                                     modalClose: false,
+                                     escClose: false,
+                                     vStart: 350
+                                 });
+                             },
+                             success: function(data) {
+                                 // Close our Dialog box if successful, otherwise we need to keep it open
+                                 $("#loading").replaceWith("<div id=\"loading\"><strong>" + data + "</strong></div>");
+                                 $dialogContent.dialog("close");
+                             },
+                             error: function(data) {
+                                 // Yii error ouput for errors
+                                 $("#loading").replaceWith(data);
+                             },
+                             complete: function() {
+                                 setTimeout(function() {
+                                     $("#punchBox").bPopup().close();
+                                 }, 3000);
+                                 setTimeout(function() {
+                                     $("#loading").replaceWith(loadingForm);
+                                 }, 3250);
+                             }
 
-                            });
-                        }
-                    },
-                    cancel: function() {
-                        $dialogContent.dialog("close");
-                    }
-                }
-            }).show();
+                         });
+                     }
+                 },
+                 cancel: function() {
+                     $dialogContent.dialog("close");
+                 }
+             }
+        }).show();
 
-            // TODO: I changed stuff here, make sure it doesn't break anything
-            startField = $dialogContent.find("select[name='start']").val(calEvent.start);
-            endField = $dialogContent.find("select[name='end']").val(calEvent.end);
-            $dialogContent.find(".date_holder").text($calendar.weekCalendar("formatDate", calEvent.start));
-            setupStartAndEndTimeFields(startField, endField, calEvent, $calendar.weekCalendar("getTimeslotTimes", calEvent.start));
-            $(window).resize().resize(); //fixes a bug in modal overlay size ??
+        // TODO: I changed stuff here, make sure it doesn't break anything
+        startField = $dialogContent.find("select[name='start']").val(calEvent.start);
+        endField = $dialogContent.find("select[name='end']").val(calEvent.end);
+        $dialogContent.find(".date_holder").text($calendar.weekCalendar("formatDate", calEvent.start));
+        setupStartAndEndTimeFields(startField, endField, calEvent, $calendar.weekCalendar("getTimeslotTimes", calEvent.start));
+       / $(window).resize().resize(); //fixes a bug in modal overlay size ??
         },
         eventNew: function(calEvent) {
 
@@ -242,7 +242,6 @@ $(document).ready(function() {
                 }
             }).show();
 
-            // TODO: I changed stuff here, make sure it didn't break anything
             startField = $dialogContent.find("select[name='start']").val(calEvent.start);
             endField = $dialogContent.find("select[name='end']").val(calEvent.end);
             $dialogContent.find(".date_holder").text($calendar.weekCalendar("formatDate", calEvent.start));
@@ -252,12 +251,10 @@ $(document).ready(function() {
         noEvents: function() {},
         data: "<? echo Yii::app()->baseUrl; ?>/admin/schedule/scheduledShifts?spUid=<? echo $spUid; ?>&uid=<? echo $uid; ?>",
     });
-
     function resetForm($dialogContent) {
         $dialogContent.find("input").val("");
         $dialogContent.find("textarea").val("");
     }
-    // TODO: Duplicated function was here (resetForm), I deleted one, make sure it didn't break anything
     /*
      * Sets up the start and end time fields in the calendar event
      * form for editing based on the calendar event being edited
