@@ -1,6 +1,10 @@
 	<?php
 	
 // include the necessary css/js files for this view
+$baseUrl = Yii::app()->baseUrl; 
+$cs = Yii::app()->getClientScript();
+$cs->registerCssFile($baseUrl.'/css/CustomCalendar.css');
+
 $this->pageTitle=Yii::app()->name . ' - Schedule' ;
 $this->breadcrumbs=array(
 	'Home'=>array('../home'),
@@ -17,7 +21,7 @@ $this->menu=array(
 <div class="full">
 	<a name="calendar"></a>
 	<h3>View Schedule</h3>
-<? /*	<a href="<? echo $this->createUrl('banner'); ?>" class="floatingLink">Banner view</a> */ ?>
+ 	<a href="<? echo $this->createUrl('banner'); ?>" class="floatingLink">Banner view</a>  
 	<a href="<? echo $this->createUrl('export'); ?>" class="floatingLink">Export</a>
 	<div id='calendar'></div>
 	<div id="event_edit_container"> 

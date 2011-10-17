@@ -1,0 +1,102 @@
+.wc-time {
+	border:1px solid #888;
+}
+
+.Copycat {
+	background-color:#f5f5ea;
+}
+.Copycat .wc-time {
+	background-color:#f5f5ea;
+}
+.Copycat .wc-title {
+	color:#db5e78;
+}
+
+.CallCenter1 {
+	background-color:#a02323;
+}
+.CallCenter1 .wc-time {
+	border:1px solid #888;
+	background-color:#8f1d1d;
+}
+.CallCenter1 .wc-title {
+	color: #FFFFFF;
+}
+
+.CallCenter2 {
+	background-color:#f2f2e9;
+}
+.CallCenter2 .wc-time {
+	border:1px solid #888;
+	background-color:#570026;
+}
+.CallCenter2 .wc-title {
+	color: #FFFFFF;
+}
+
+.FrontDesk1 {
+	background-color:#40a488;
+}
+.FrontDesk1 .wc-time {
+	border:1px solid #888;
+	background-color:#0e4a37;
+}
+.FrontDesk1 .wc-title {
+	color: #FFFFFF;
+}
+
+.FrontDesk2 {
+	background-color:#84a9a3;
+}
+.FrontDesk2 .wc-time {
+	border:1px solid #888;
+	background-color:#49706c;
+}
+.FrontDesk2 .wc-title {
+	color: #FFFFFF;
+}
+
+.RepairCenter1 {
+	background-color:#3740ac;
+}
+.RepairCenter1 .wc-time {
+	border:1px solid #888;
+	background-color:#080e5e;
+}
+.CallCenter1 .wc-title {
+	color: #FFFFFF;
+}
+
+.RepairCenter2 {
+	background-color:#4584a3;
+}
+.RepairCenter2 .wc-time {
+	background-color:434646;
+	border:1px solid #888;
+}
+.RepairCenter2 .wc-title {
+	color: #FFFFFF;
+}
+
+.Switchboard {
+	background-color:#dfc144;
+}
+.Switchboard .wc-time {
+	border:1px solid #888;
+	background-color:#aa8a0c;
+}
+.Switchboard .wc-title {
+	color: #FFFFFF;
+}
+
+.Supervisor {
+	background-color:#9ca845;
+}
+.Supervisor .wc-time {
+	border:1px solid #888;
+	background-color:#5e6a08;
+}
+.CallCenter1 .wc-title {
+	color: #FFFFFF;
+}
+
