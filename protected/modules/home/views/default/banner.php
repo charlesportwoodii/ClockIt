@@ -51,10 +51,6 @@ for($i = $beginning; $i < $end; $i++) {
 	}
 }
 
-echo '<pre>';
-print_r($printer);
-echo '</pre>';
-
 $dayOnTable = $beginning;
 foreach($printer as $day => $i) {
 	echo '<td>';
