@@ -21,10 +21,10 @@ if ($firstMonth == $currentMonth) {
 	echo "<tr>";
 }
 else {
-	$daysInCurrentMonth = cal_days_in_month(CAL_GREGORIAN, $firstMonth, $firstYear);
-	$daysInFirstMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);
+	$daysInFirstMonth = cal_days_in_month(CAL_GREGORIAN, $firstMonth, $firstYear);
+	$daysInCurrentMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);
 	echo "<tr>";
-	for ($i = $firstDay; $i <= $daysInCurrentMonth; $i++) {
+	for ($i = $firstDay; $i <= $daysInFirstMonth; $i++) {
 		echo "<th>" . date('l M j',mktime(0, 0, 0, $firstMonth, $i, $firstYear)) . "</th>";
 	}
 	for ($i = 1; $i < $currentDay; $i++) {
@@ -43,7 +43,8 @@ $end = $beginning + $NUMBER_OF_DAYS;
 
 for($i = $beginning; $i < $end; $i++) {
 	foreach($dataReader as $j) {
-		if($i == (int)date("d", strtotime($j['shift_start']))) {
+		if($i == (int)date("d", strtotime($j['shift_start'])) 
+	||	 ($i > $daysInFirstMonth && $i - $daysInFirstMonth + 1 == (int)date("d", strtotime($j['shift_start'])))) {
 			$printer[$i][] = $j;
 		}
 	}
@@ -89,13 +90,14 @@ if($scheduledShifts['data'] != '' && $scheduledShifts['data'] != NULL) {
 	for($i = $beginning; $i < $end; $i++) {
 		$k = 0;
 		foreach($scheduledShifts['data'] as $j) {
-			if($i == $j['start_date']['day']) {
+			if($i == $j['start_date']['day'] || ($i > $daysInFirstMonth && $i - $daysInFirstMonth + 1 == $j['start_date']['day'])) {
 				$printer[$i][$k]['shift_start'] = $j['start_time']['time'];
 				$printer[$i][$k]['shift_end'] = $j['end_time']['time'];
 				$k++;
 			}
 		}
 	}
+	
 
 	$dayOnTable = $beginning;
 	foreach($printer as $day => $i) {

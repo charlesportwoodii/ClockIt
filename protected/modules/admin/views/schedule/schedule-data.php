@@ -154,7 +154,7 @@ $(document).ready(function() {
         endField = $dialogContent.find("select[name='end']").val(calEvent.end);
         $dialogContent.find(".date_holder").text($calendar.weekCalendar("formatDate", calEvent.start));
         setupStartAndEndTimeFields(startField, endField, calEvent, $calendar.weekCalendar("getTimeslotTimes", calEvent.start));
-       / $(window).resize().resize(); //fixes a bug in modal overlay size ??
+        $(window).resize().resize(); //fixes a bug in modal overlay size ??
         },
         eventNew: function(calEvent) {
 

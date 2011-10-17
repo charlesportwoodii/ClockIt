@@ -44,11 +44,16 @@ $end = $beginning + $NUMBER_OF_DAYS;
 
 for($i = $beginning; $i < $end; $i++) {
 	foreach($dataReader as $j) {
-		if($i == (int)date("d", strtotime($j['shift_start']))) {
+		if($i == (int)date("d", strtotime($j['shift_start'])) 
+	||	 ($i > $daysInFirstMonth && $i - $daysInFirstMonth + 1 == (int)date("d", strtotime($j['shift_start'])))) {
 			$printer[$i][] = $j;
 		}
 	}
 }
+
+echo '<pre>';
+print_r($printer);
+echo '</pre>';
 
 $dayOnTable = $beginning;
 foreach($printer as $day => $i) {
@@ -90,7 +95,7 @@ if($scheduledShifts['data'] != '' && $scheduledShifts['data'] != NULL) {
 	for($i = $beginning; $i < $end; $i++) {
 		$k = 0;
 		foreach($scheduledShifts['data'] as $j) {
-			if($i == $j['start_date']['day']) {
+			if($i == $j['start_date']['day'] || ($i > $daysInFirstMonth && $i - $daysInFirstMonth + 1 == $j['start_date']['day'])) {
 				$printer[$i][$k]['shift_start'] = $j['start_time']['time'];
 				$printer[$i][$k]['shift_end'] = $j['end_time']['time'];
 				$k++;
