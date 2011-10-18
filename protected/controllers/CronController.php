@@ -161,7 +161,7 @@ class CronController extends CController
 		$model->attributes = array(
 			'uid' => $timecard['uid'],
 			'asid' => $timecard['pid'],
-			'submissionTime' => date("Y-m-d h:i:s", time()),
+			'submissionTime' => date("Y-m-d H:i:s", time()),
 			'start' => $timecard['shift_start'],
 			'end' => $this->getLastShift($timecard['uid']),
 			'type' => '1',
@@ -198,7 +198,7 @@ class CronController extends CController
 			$model = Timecards::loadModel($punch['pid']);
 			
 			// Update the shift end time
-			$model->shift_end = date("Y-m-d h:i:s", time());
+			$model->shift_end = date("Y-m-d H:i:s", time());
 			
 			// Update the record
 			$model->update();
@@ -225,7 +225,7 @@ class CronController extends CController
 		
 		// Log the action
 		$model = new Watchdog;
-		$model->attributes = array('action'=>'REPAIR TABLE', 'model'=>'CRON', 'stamp'=>date("Y-m-d h:i:s", time()), 'user_id'=>'SYSTEM');
+		$model->attributes = array('action'=>'REPAIR TABLE', 'model'=>'CRON', 'stamp'=>date("Y-m-d H:i:s", time()), 'user_id'=>'SYSTEM');
 		$model->save();
 		unset($model);
 		
@@ -234,7 +234,7 @@ class CronController extends CController
 		
 		// Log the action
 		$model = new Watchdog;
-		$model->attributes = array('action'=>'OPTIMIZE TABLE', 'model'=>'CRON', 'stamp'=>date("Y-m-d h:i:s", time()), 'user_id'=>'SYSTEM');
+		$model->attributes = array('action'=>'OPTIMIZE TABLE', 'model'=>'CRON', 'stamp'=>date("Y-m-d H:i:s", time()), 'user_id'=>'SYSTEM');
 		$model->save();
 		unset($model);
 		
@@ -246,7 +246,7 @@ class CronController extends CController
 		
 		// Log the action
 		$model = new Watchdog;
-		$model->attributes = array('action'=>'ANALYZE TABLE', 'model'=>'CRON', 'stamp'=>date("Y-m-d h:i:s", time()), 'user_id'=>'SYSTEM');
+		$model->attributes = array('action'=>'ANALYZE TABLE', 'model'=>'CRON', 'stamp'=>date("Y-m-d H:i:s", time()), 'user_id'=>'SYSTEM');
 		$model->save();
 		unset($model);
 	}
