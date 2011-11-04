@@ -105,7 +105,8 @@ $this->menu=array(
 						</center>
 					</div>
 				</li>			
-				<li>
+				<? /*
+                <li>
 					<center><h3>Pingdom Status</h3></center>
 					<div class="data3">
 						<center>
@@ -131,6 +132,7 @@ $this->menu=array(
 						</center>
 					</div>
 				</li>
+                */ ?>
 			</ul> 
 		</div> 
 		</div>
@@ -192,7 +194,7 @@ $this->menu=array(
 					$("#loadingImg2").remove();
 					}
 				});
-				
+				/*
 		// Update Pingdom Display
 			$.ajax({
 				url: 'site/pingdom',
@@ -228,7 +230,7 @@ $this->menu=array(
 					$("#loadingImg4").remove();
 					}
 				});
-				
+				*/
 		// Call this again just incase, cleanup
 			$("#loadingImg4").remove();	
 			$("#loadingImg3").remove();	
