@@ -285,7 +285,20 @@ class SiteController extends Controller
 		// Echo a list of everyone who is on the clock
 		$this->renderPartial('whoIsIn', NULL, false, true);
 		}
-	
+
+    public function actionWhoIsInJson()
+    {
+        $response = Users::model()->findAll('cStatus = 1');
+        
+        $result = array();
+        foreach($response as $v)
+        {
+            $result[] = array('id'=>$v['uid'], 'value'=>$v['dispName']);
+        }
+
+        echo json_encode($result);
+    }
+    
 	public function actionTwitter() {
 		// Echo the current twitter feed
 		$this->renderPartial('twitter', NULL, false, true);
