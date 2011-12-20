@@ -1,121 +1,109 @@
-<?
-$baseUrl = Yii::app()->baseUrl;
-$cs = Yii::app()->getClientScript();
-$cs->registerCssFile($baseUrl.'/css/banner.css');
-?>
+<? Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/banner.css'); ?>
+
 <h2>Clocked Times and Scheduled Times</h2>
 <table border = 1>
 <?
-// Begin Printing Header
 
-list($firstYear,$firstMonth,$firstDay) = explode("-", $timestamp);
-$firstDay = substr($firstDay, 0, strpos($firstDay, ' '));
+    // Retrieve the number of days in the current month, and the next month if neccessary
+    list($firstYear,$firstMonth,$firstDay) = explode('-', $timestamp);
+    $firstDay = substr($firstDay, 0, strpos($firstDay, ' '));
+    list($currentYear,$currentMonth,$currentDay) = explode('-', date('Y-m-d', time()));
 
-list($currentYear,$currentMonth,$currentDay) = explode("-", date("Y-m-d", time()));
+    // Displays the headers
+    // If the first month and the current month are the same, then we just have to print out the headers
+    if ($firstMonth == $currentMonth) 
+    {  
+        echo '<tr>';
+        for ($i = $firstDay; $i < $currentDay; $i++)
+        {
+            echo '<th>' . date('l<br /> M j',mktime(0, 0, 0, $firstMonth, $i, $firstYear)) . '</th>';
+        }
+        echo '</tr>';                   
+        echo '<tr>';
+    }
+    else 
+    {
+        // If the two months are different, then we have to print out all the days in the first month, and then all the days in the second month
+        $daysInFirstMonth = cal_days_in_month(CAL_GREGORIAN, $firstMonth, $firstYear);
+        $daysInCurrentMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);
+        
+        echo '<tr>';
+        
+        for ($i = $firstDay; $i <= $daysInFirstMonth; $i++) 
+        {
+            echo '<th>' . date('l<br /> M j',mktime(0, 0, 0, $firstMonth, $i, $firstYear)) . '</th>';
+        }
+        
+        for ($i = 1; $i < $currentDay; $i++)
+        {
+            echo '<th>' . date('l<br /> M j',mktime(0, 0, 0, $currentMonth, $i, $currentYear)) . '</th>';
+        }
+        
+        echo '</tr>';
+        echo '<tr>';
+    } 
 
-if ($firstMonth == $currentMonth) {	
-	echo "<tr>";
-	for ($i = $firstDay; $i < $currentDay; $i++) {
-		echo "<th>" . date('l M j',mktime(0, 0, 0, $firstMonth, $i, $firstYear)) . "</th>";
-	}
-	echo "</tr>";					
-	echo "<tr>";
-}
-else {
-	$daysInCurrentMonth = cal_days_in_month(CAL_GREGORIAN, $firstMonth, $firstYear);
-	$daysInFirstMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);
-	echo "<tr>";
-	for ($i = $firstDay; $i <= $daysInCurrentMonth; $i++) {
-		echo "<th>" . date('l M j',mktime(0, 0, 0, $firstMonth, $i, $firstYear)) . "</th>";
-	}
-	for ($i = 1; $i < $currentDay; $i++) {
-		echo "<th>" . date('l M j',mktime(0, 0, 0, $currentMonth, $i, $currentYear)) . "</th>";
-	}
-	echo "</tr>";
-	echo "<tr >";
-} 
+    // Displays the content
+    // If the current month and the first month are the same, then we just list the data accordingly
+    if ($firstMonth == $currentMonth)
+    {
+        for ($i = $firstDay; $i < $currentDay; $i++)
+        {
+            echo '<td>';
+            foreach($dataReader as $k=>$v)
+            {
+                // Retrieve the appropriate date timestamps
+                list($date,$time) = explode(' ',$v['shift_start']);
+                list($date2,$time2) = explode(' ', $v['shift_end']);
+                list($year,$month,$day) = explode('-',$date);
+                if ((int)$day == $i)
+                {
+                    echo  $time . '<br />' . $time2 . '<br /><br />';
+                }
+            }
+        }
+    }
+    else
+    {
+        // If the two months are different, then we have to print out all the days in the first month, and then all the days in the second month
+        $daysInFirstMonth = cal_days_in_month(CAL_GREGORIAN, $firstMonth, $firstYear);
+        $daysInCurrentMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);
 
-// Begin Printing Times
+        for ($i = $firstDay; $i <= $daysInFirstMonth; $i++)
+        {
+            echo '<td>';
+            foreach($dataReader as $k=>$v)
+            {
+                // Retrieve the appropriate date timestamps
+                list($date,$time) = explode(' ',$v['shift_start']);
+                list($date2,$time2) = explode(' ', $v['shift_end']);
+                list($year,$month,$day) = explode('-',$date);
+                if ((int)$day == $i)
+                {
+                    echo  $time . '<br />' . $time2 . '<br /><br />';
+                }
+            }
+            echo '</td>';
+        }
+        
+        for ($i = 1; $i < $currentDay; $i++)
+        {
+            echo '<td>';
+            foreach($dataReader as $k=>$v)
+            {
+                // Retrieve the appropriate date timestamps
+                list($date,$time) = explode(' ',$v['shift_start']);
+                list($date2,$time2) = explode(' ', $v['shift_end']);
+                list($year,$month,$day) = explode('-',$date);
+                if ((int)$day == $i)
+                {
+                    echo  $time . '<br />' . $time2 . '<br /><br />';
+                }
+            }
+            echo '</td>';
 
-$NUMBER_OF_DAYS = 20;
-$printer = array();
-$beginning = intval ($firstDay);
-$end = $beginning + $NUMBER_OF_DAYS;
-
-for($i = $beginning; $i < $end; $i++) {
-	foreach($dataReader as $j) {
-		if($i == (int)date("d", strtotime($j['shift_start'])) 
-	||	 ($i > $daysInFirstMonth && $i - $daysInFirstMonth + 1 == (int)date("d", strtotime($j['shift_start'])))) {
-			$printer[$i][] = $j;
-		}
-	}
-}
-
-$dayOnTable = $beginning;
-foreach($printer as $day => $i) {
-	echo '<td>';
-	if($dayOnTable != $day) {
-		// Loop through the days on the table until we find the one that matches $day
-		while($dayOnTable < $end && $dayOnTable < $day) {
-			echo "</td><td>";
-			$dayOnTable++;
-		}
-	}
-	foreach($i as $j) {
-		$shiftStart = strtotime($j['shift_start']);
-		echo date("h:i a", $shiftStart);
-		echo '<br />' . date("h:i a", strtotime($j['shift_end']));
-		echo '<br /><br />';
-	}
-	$dayOnTable++;
-	echo '</td>';
-}
+        }
+    }
 ?>
-</tr>
-<tr>
-<?
-$startDate = $timestamp;
-$endDate = date("Y-m-d", time());
-$scheduledShifts = $sp->getShifts(
-		array(
-			'mode'=>'employees',
-			'employees'=>$spUid,
-			'start_date' => $startDate,
-			'end_date' => $endDate
-		     )
-		);
-
-if($scheduledShifts['data'] != '' && $scheduledShifts['data'] != NULL) {
-	unset($printer);
-	$printer = array();
-	for($i = $beginning; $i < $end; $i++) {
-		$k = 0;
-		foreach($scheduledShifts['data'] as $j) {
-			if($i == $j['start_date']['day'] || ($i > $daysInFirstMonth && $i - $daysInFirstMonth + 1 == $j['start_date']['day'])) {
-				$printer[$i][$k]['shift_start'] = $j['start_time']['time'];
-				$printer[$i][$k]['shift_end'] = $j['end_time']['time'];
-				$k++;
-			}
-		}
-	}
-
-	$dayOnTable = $beginning;
-	foreach($printer as $day => $i) {
-		echo '<td>';
-		if($dayOnTable != $day) {
-			// Loop through the days on the table until we find the one that matches $day
-			while($dayOnTable < $end && $dayOnTable < $day) {
-				echo "</td><td>";
-				$dayOnTable++;
-			}
-		}
-		foreach($i as $j) {
-			$shiftStart = strtotime($j['shift_start']);
-			echo date("h:i a", $shiftStart);
-			echo '<br />' . date("h:i a", strtotime($j['shift_end']));
-			echo '<br /><br />';
-		}
-		$dayOnTable++;
-		echo '</td>';
-	}
-}
+    </tr>
+</table>

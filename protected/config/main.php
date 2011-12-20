@@ -39,16 +39,16 @@ return array(
 	//'onEndRequest'=>create_function('$event', 'return ob_end_flush();'),
 	// application components
 	'components'=>array(
-		 'widgetFactory'=>array(
-            'widgets'=>array(
-                'CBreadcrumbs'=>array(
-                    'homeLink'=>'ClockIt'
-                ),
-            ),
-        ),
+		'widgetFactory'=>array(
+            		'widgets'=>array(
+                		'CBreadcrumbs'=>array(
+				 	'homeLink'=>'ClockIt'
+				),
+		    	),
+		),
 		'session' => array(
-            'sessionName' => 'Clockit',
-			),
+			'sessionName' => 'Clockit',
+		),
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
@@ -82,8 +82,8 @@ return array(
 		),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
-            'errorAction'=>'site/error',
-        ),
+			'errorAction'=>'site/error',
+		),
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
@@ -101,14 +101,18 @@ return array(
 			'class' => 'application.extensions.Browser.CBrowserComponent',
 		),
 		'memcache'=>array(
-            'class'=>'system.caching.CMemCache',
-            'servers'=>array(
-                array('host'=>'127.0.0.1', 'port'=>11211, 'weight'=>60),
-            ),
-        ),
+			'class'=>'system.caching.CMemCache',
+			'servers'=>array(
+				array(
+					'host'=>'127.0.0.1', 
+					'port'=>11211, 
+					'weight'=>60
+				),
+		    	),
+		),
 		'apccache'=>array(
 			'class'=>'CApcCache',
-        ),
+		),
 	),
 
 	// application-level parameters that can be accessed
