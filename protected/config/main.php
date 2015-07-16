@@ -72,10 +72,10 @@ return array(
 			),
 		),
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;port=3306;dbname=team55_clockit',
+			'connectionString' => 'mysql:host=localhost;port=3306;dbname=',
 			'emulatePrepare' => true,
-			'username' => 'team55',
-			'password' => 'zdFH3E6dxp3L2zJu',
+			'username' => '',
+			'password' => '',
 			'charset' => 'utf8',
 			'enableParamLogging'=>true,
 			'enableProfiling'=>true,
@@ -119,10 +119,10 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-		'adminEmail'=>'t55-clockit@acu.edu',
-		'encryptionKey' => '/eM2xYHSpDH8T3TP75yLThZ5MeYW3sS5GNbimlhIFLCIg7Lu8yOaKgj0lzxFRzB/SdZwpPW4+O5tQJnTLuGn2A==',
-		'SPAPIKey' => '890c7a0de00f01dc992ea3f3854f06495b25e93b',
-		'SPPassword'=> 'W1nd0w57',
+		'adminEmail'=>'',
+		'encryptionKey' => '',
+		'SPAPIKey' => '',
+		'SPPassword'=> '',
 		'version'=>'2.0 &#9082;',
 	),
 );
